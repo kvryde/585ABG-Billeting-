@@ -68,6 +68,11 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px;line-height:1.15;margin-t
 .pr button{border:0;background:none;color:#ff6b5e;font-size:18px;cursor:pointer;padding:4px 8px}
 .ur{padding:9px 0;border-bottom:1px solid var(--line);text-align:left;font-size:13.5px;line-height:1.35;overflow-wrap:anywhere}.ur small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}.rl{font-size:13px;color:var(--muted);padding:6px}
 #upd{position:relative}#un{position:absolute;top:-6px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;display:none;place-items:center;padding:0 4px}
+.ttl{min-width:0;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}
+#rc{display:none;font-style:normal;font-size:10.5px;font-weight:700;margin-left:6px;padding:2px 8px;border-radius:8px;color:#fff;vertical-align:1px}
+.tg{font-size:10px;padding:1px 6px;border-radius:7px;color:#fff;font-weight:700;margin-left:4px}
+.r-viewer{background:#8e8e93}.r-pending{background:#8e8e93}.r-editor{background:#0a84ff}.r-moderator{background:#ff9f0a}.r-admin{background:#ff453a}
+#rc.r-moderator,.tg.r-moderator{color:#111}
 #fab{position:absolute;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:26px;border:0;background:var(--accent);color:#fff;font-size:30px;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:3}
 #shade{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 #shade.on{opacity:1;pointer-events:auto}
@@ -129,7 +134,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px;line-height:1.15;margin-t
 
 <div id="app">
   <header>
-    <div class="ht"><span class="ttl">585ABG Billeting</span><button class="hb" id="ppl" style="display:none">People</button><button class="hb" id="today">Today</button><button class="hb" id="upd" aria-label="Updates">🔔<span id="un"></span></button></div>
+    <div class="ht"><span class="ttl">585ABG Billeting<i id="rc"></i></span><button class="hb" id="ppl" style="display:none">People</button><button class="hb" id="today">Today</button><button class="hb" id="upd" aria-label="Updates">🔔 Updates<span id="un"></span></button></div>
     <h1 id="mon"></h1>
   </header>
   <div id="wd"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
@@ -267,10 +272,10 @@ $("sv").onclick=function(){
   var o={id:cur.id!=null?cur.id:String(Date.now()),text:t,start:s,end:e,color:cur.color,alarm:$("al").checked,time:$("tm").value,fired:false,payee:$("py").value.trim(),paid:cur.paid==="paid"};
   if(!canEdit())return;
   if(cloud){var ex=idx(o.id)>=0;cloud.db.collection("events").doc(String(o.id)).set(o).then(function(){logAct(ex?"edited":"added",o.text,o)}).catch(function(){toast("You are not allowed to edit.")});closeSheet();badge()}
-  else{var i=idx(o.id);if(i>=0)D.ev[i]=o;else D.ev.push(o);save();rebuild();closeSheet();badge()}
+  else{var i=idx(o.id),ex2=i>=0;if(ex2)D.ev[i]=o;else D.ev.push(o);logAct(ex2?"edited":"added",o.text,o);save();rebuild();closeSheet();badge()}
   if(o.alarm)ask(function(ok){toast(ok?"Saved. Alarm set for "+fmt12(o.time)+".":"Saved. Turn on alerts to get notified while the app is open.")});else toast("Saved.");
 };
-$("del").onclick=function(){if(!canEdit())return;if(cloud){var ev0=D.ev[idx(cur.id)];cloud.db.collection("events").doc(String(cur.id)).delete().then(function(){if(ev0)logAct("deleted",ev0.text,ev0)}).catch(function(){toast("You are not allowed to delete.")});closeSheet()}else{var i=idx(cur.id);if(i>=0)D.ev.splice(i,1);save();rebuild();closeSheet();badge()}};
+$("del").onclick=function(){if(!canEdit())return;if(cloud){var ev0=D.ev[idx(cur.id)];cloud.db.collection("events").doc(String(cur.id)).delete().then(function(){if(ev0)logAct("deleted",ev0.text,ev0)}).catch(function(){toast("You are not allowed to delete.")});closeSheet()}else{var i=idx(cur.id),ev1=D.ev[i];if(i>=0)D.ev.splice(i,1);if(ev1)logAct("deleted",ev1.text,ev1);save();rebuild();closeSheet();badge()}};
 
 /* alerts */
 function permState(){return("Notification" in window)?Notification.permission:"unsupported"}
@@ -353,7 +358,8 @@ var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");
 
 /* shared access: names, approval, roles */
 function gate(t,d,ask){$("gt").textContent=t;$("gd").textContent=d;$("gn").style.display=$("gb").style.display=ask?"":"none";$("gate").classList.add("on")}
-function applyRole(){$("fab").style.display=canEdit()?"":"none";$("ppl").style.display=isMod()?"":"none";if(isMod())watchPeople()}
+function setChip(){$("rc").textContent=roleName(role);$("rc").className="r-"+role;$("rc").style.display="inline-block"}
+function applyRole(){setChip();$("fab").style.display=canEdit()?"":"none";$("ppl").style.display=isMod()?"":"none";if(isMod())watchPeople()}
 function startData(){if(started)return;started=true;watchActivity();cloud.db.collection("events").onSnapshot(function(q){D.ev=q.docs.map(function(d){return d.data()});rebuild();badge()},function(){toast("Could not load the calendar.")})}
 function watchMe(){cloud.db.collection("users").doc(me).onSnapshot(function(s){
   if(!s.exists){role="none";gate("Welcome","Type your name to ask for access.",true);$("gb").disabled=false;return}
@@ -361,7 +367,7 @@ function watchMe(){cloud.db.collection("users").doc(me).onSnapshot(function(s){
   if(role==="pending"){gate("Waiting for approval","Hi "+u.name+". The administrator has to approve you before you can open this. This page updates by itself.",false);return}
   $("gate").classList.remove("on");applyRole();startData();
 },function(){gate("Access error","Close the app and open it again.",false)})}
-var ROLES=[["pending","Pending"],["viewer","Viewer"],["editor","Editor"],["moderator","Moderator"],["admin","Admin"]];
+var ROLES=[["pending","Pending"],["viewer","Viewer"],["editor","Administrator"],["moderator","Moderator"],["admin","Admin"]];
 function watchPeople(){if(peopleOn)return;peopleOn=true;cloud.db.collection("users").onSnapshot(function(q){
   var h="",pend=0;
   q.docs.forEach(function(d){var u=d.data();if(u.role==="pending")pend++;
@@ -371,22 +377,27 @@ function watchPeople(){if(peopleOn)return;peopleOn=true;cloud.db.collection("use
     h+='<div class="pr"><b>'+esc(u.name||"")+(d.id===me?" (you)":"")+'</b>'+(lock?'<span class="rl">'+(lab?lab[1]:"")+'</span>':'<select data-u="'+d.id+'">'+opts+'</select><button data-x="'+d.id+'" aria-label="Remove">\u2715</button>')+'</div>'});
   $("pl").innerHTML=h||"No one yet.";$("ppl").textContent="People"+(pend?" ("+pend+")":"")})}
 $("ppl").onclick=function(){$("pp").classList.add("on")};$("ppx").onclick=function(){$("pp").classList.remove("on")};
-$("pl").addEventListener("change",function(e){var u=e.target.getAttribute("data-u");if(!u)return;var n=e.target.closest(".pr").querySelector("b").textContent,r=e.target.value;cloud.db.collection("users").doc(u).update({role:r}).then(function(){logAct("role",n+" is now "+r)}).catch(function(){toast("Could not change.")})});
+$("pl").addEventListener("change",function(e){var u=e.target.getAttribute("data-u");if(!u)return;var n=e.target.closest(".pr").querySelector("b").textContent,r=e.target.value;cloud.db.collection("users").doc(u).update({role:r}).then(function(){logAct("role",n+" is now "+roleName(r))}).catch(function(){toast("Could not change.")})});
 $("pl").addEventListener("click",function(e){var b=e.target.closest("button"),u=b&&b.getAttribute("data-x");if(!u)return;if(confirm("Remove this person?")){var n=b.closest(".pr").querySelector("b").textContent;cloud.db.collection("users").doc(u).delete().then(function(){logAct("role",n+" was removed")}).catch(function(){toast("Could not remove.")})}});
 /* updates feed */
-function logAct(action,text,e){if(!cloud)return;cloud.db.collection("activity").add({at:Date.now(),uid:me,by:meName,role:role,action:action,text:String(text).slice(0,120),start:e?e.start:"",end:e?e.end:""}).catch(function(){})}
+function roleName(r){return({viewer:"Viewer",editor:"Administrator",moderator:"Moderator",admin:"Admin",pending:"Pending"})[r]||r}
+function logAct(action,text,e){
+  var a={at:Date.now(),uid:me||"local",by:cloud?meName:"You",role:role,action:action,text:String(text).slice(0,120),start:e?e.start:"",end:e?e.end:""};
+  if(cloud){cloud.db.collection("activity").add(a).catch(function(){})}
+  else{D.act=(D.act||[]);D.act.unshift(a);D.act=D.act.slice(0,50);save();$("ul").innerHTML=feedHTML(D.act)}
+}
 function ago(t){var m=Math.round((Date.now()-t)/60000);return m<1?"just now":m<60?m+" min ago":m<1440?Math.round(m/60)+" h ago":Math.round(m/1440)+" d ago"}
 function actLine(a){return a.action==="role"?a.text:(a.by||"Someone")+" "+a.action+": "+a.text}
+function feedHTML(arr){return arr.length?arr.map(function(a){return '<div class="ur">'+esc(actLine(a))+'<small>'+esc(a.by||"")+(a.role?' <b class="tg r-'+esc(a.role)+'">'+roleName(a.role)+'</b>':"")+" \u00b7 "+ago(a.at)+(a.start?" \u00b7 "+a.start+(a.end&&a.end!==a.start?" to "+a.end:""):"")+'</small></div>'}).join(""):'<p style="color:var(--muted);font-size:13.5px">No updates yet.</p>'}
 function badgeU(){$("un").textContent=unread;$("un").style.display=unread?"grid":"none"}
 function markSeen(){try{localStorage.setItem("bill.seen",String(Date.now()))}catch(e){}unread=0;badgeU()}
 $("upd").onclick=function(){$("up").classList.add("on");markSeen()};$("upx").onclick=function(){$("up").classList.remove("on")};
 function watchActivity(){if(actOn)return;actOn=true;var first=true;
   cloud.db.collection("activity").orderBy("at","desc").limit(50).onSnapshot(function(q){
-    var seen=+localStorage.getItem("bill.seen")||0,h="";unread=0;
-    q.docs.forEach(function(d){var a=d.data();if(a.at>seen&&a.uid!==me)unread++;
-      h+='<div class="ur">'+esc(actLine(a))+'<small>'+esc(a.by||"")+(a.role?" ("+esc(a.role)+")":"")+" \u00b7 "+ago(a.at)+(a.start?" \u00b7 "+a.start+(a.end&&a.end!==a.start?" to "+a.end:""):"")+'</small></div>'});
+    var seen=+localStorage.getItem("bill.seen")||0,arr=q.docs.map(function(d){return d.data()});unread=0;
+    arr.forEach(function(a){if(a.at>seen&&a.uid!==me)unread++});
     if(!first)q.docChanges().forEach(function(c){if(c.type==="added"&&c.doc.data().uid!==me)notify("585ABG Billeting",actLine(c.doc.data()))});
-    first=false;$("ul").innerHTML=h||'<p style="color:var(--muted);font-size:13.5px">No updates yet.</p>';
+    first=false;$("ul").innerHTML=feedHTML(arr);
     if($("up").classList.contains("on"))markSeen();else badgeU();
   },function(){})}
 $("gb").onclick=function(){var n=$("gn").value.trim();if(!n)return;$("gb").disabled=true;cloud.db.collection("users").doc(me).set({name:n,role:"pending",at:Date.now()}).catch(function(){$("gb").disabled=false;toast("Could not send. Try again.")})};
@@ -402,6 +413,7 @@ function initCloud(){
   })();
 }
 build();bellUI();badge();tick();initCloud();
+if(!FIREBASE_CONFIG.apiKey){setChip();$("ul").innerHTML=feedHTML(D.act||[])}
 $("mon").textContent=MON[now0.getMonth()]+" "+now0.getFullYear();
 if(mobile)openApp();
 })();
