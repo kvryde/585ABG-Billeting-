@@ -3,32 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#1d3b34">
+<meta name="theme-color" content="#000000">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>Jemaica Schedule</title>
+<title>585ABG Billeting</title>
 <style>
-:root{
-  --bg:#f3f1ec; --surface:#ffffff; --ink:#1c2321; --muted:#6b7773; --line:#dcdad3;
-  --accent:#1f6f5c; --accent-ink:#ffffff; --today:#e4f1ec; --past:#b5bbb8; --warn:#c2410c;
-  --stage:#d8d6cf; --phone:#101413;
-  color-scheme:light;
-  box-sizing:border-box;
-}
-@media (prefers-color-scheme:dark){
-  :root:not([data-theme="light"]){
-    --bg:#121715; --surface:#1a211f; --ink:#e8ece9; --muted:#8c9a95; --line:#2a3330;
-    --accent:#4fb89c; --accent-ink:#06130f; --today:#1d2b27; --past:#55615d; --warn:#f08a4b;
-    --stage:#0b0e0d; --phone:#050706; color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#121715; --surface:#1a211f; --ink:#e8ece9; --muted:#8c9a95; --line:#2a3330;
-  --accent:#4fb89c; --accent-ink:#06130f; --today:#1d2b27; --past:#55615d; --warn:#f08a4b;
-  --stage:#0b0e0d; --phone:#050706; color-scheme:dark;
-}
+:root{--bg:#f6f6f4;--surface:#fff;--ink:#16191a;--muted:#8a9490;--line:#dcdcd6;--accent:#ff453a;--ok:#1f6f5c;--ok-ink:#fff;--stage:#d8d6cf;--phone:#101413;color-scheme:light;box-sizing:border-box}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#000;--surface:#1c1c1e;--ink:#f2f2f2;--muted:#8e8e93;--line:#2c2c2e;--ok:#4fb89c;--ok-ink:#06130f;--stage:#0b0e0d;--phone:#050706;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#000;--surface:#1c1c1e;--ink:#f2f2f2;--muted:#8e8e93;--line:#2c2c2e;--ok:#4fb89c;--ok-ink:#06130f;--stage:#0b0e0d;--phone:#050706;color-scheme:dark}
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%}
-body{font-family:"Avenir Next","Segoe UI",Roboto,"Helvetica Neue",sans-serif;background:var(--stage);color:var(--ink);overflow:hidden}
+body{font-family:-apple-system,"SF Pro Text","Segoe UI",Roboto,"Helvetica Neue",sans-serif;background:var(--stage);color:var(--ink);overflow:hidden}
 #stage{height:100%;display:flex;align-items:center;justify-content:center}
 #phone{position:relative;width:min(390px,100%);height:min(820px,100%);background:var(--phone);border-radius:46px;padding:10px;box-shadow:0 30px 80px rgba(0,0,0,.35)}
 #screen{position:relative;width:100%;height:100%;border-radius:37px;overflow:hidden;background:var(--bg)}
@@ -36,66 +20,71 @@ body.mobile #stage{display:block}
 body.mobile #phone{width:100%;height:100%;border-radius:0;padding:0;box-shadow:none;background:var(--bg)}
 body.mobile #screen{border-radius:0}
 body.mobile #homebar{display:none}
-
-/* home screen */
 #home{position:absolute;inset:0;background:linear-gradient(165deg,#1d3b34,#0e1d2b 60%,#2b1d3a);color:#fff;padding:54px 22px 22px;display:flex;flex-direction:column}
 #clock{text-align:center;margin-top:18px}
 #clock b{display:block;font-size:64px;font-weight:300;letter-spacing:-2px}
 #clock span{font-size:15px;opacity:.8}
 #grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px 8px;margin-top:48px}
-.ico{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;background:none;border:0;color:#fff;font-family:inherit;cursor:pointer;position:relative}
+.ico{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:11.5px;background:none;border:0;color:#fff;font-family:inherit;cursor:pointer;position:relative;text-align:center}
 .ico i{width:58px;height:58px;border-radius:14px;display:grid;place-items:center;font-style:normal;font-size:26px;background:rgba(255,255,255,.14)}
 .ico.app i{background:#f3f1ec;color:#1f6f5c;font-weight:700;flex-direction:column;font-size:11px;line-height:1;padding-top:3px;display:flex;align-items:center;justify-content:center}
 .ico.app i em{font-style:normal;font-size:25px;color:#1c2321;margin-top:2px}
 .ico.app i small{font-size:9px;color:#c2410c;letter-spacing:.5px}
 .badge{position:absolute;top:-5px;right:6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:#e5484d;color:#fff;font-size:12px;display:none;place-items:center;font-weight:600}
 #dock{margin-top:auto;background:rgba(255,255,255,.14);border-radius:26px;padding:12px;display:flex;justify-content:space-around}
-
-/* app */
 #app{position:absolute;inset:0;display:flex;flex-direction:column;background:var(--bg);transform:translateY(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1);padding-top:env(safe-area-inset-top,0px)}
 #app.open{transform:none}
 body.mobile #app{transition:none}
-header{display:flex;align-items:center;gap:8px;padding:14px 16px 10px;border-bottom:1px solid var(--line);background:var(--bg)}
-body:not(.mobile) header{padding-top:42px}
-header h1{font-size:22px;font-weight:700;letter-spacing:-.4px;flex:1}
-header h1 small{display:block;font-size:12px;font-weight:400;color:var(--muted);letter-spacing:0;margin-top:1px}
-.hb{border:1px solid var(--line);background:var(--surface);color:var(--ink);height:36px;padding:0 12px;border-radius:18px;font:inherit;font-size:13px;cursor:pointer}
-.hb.on{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-#list{flex:1;overflow-y:auto;overscroll-behavior:contain;scroll-behavior:smooth}
-.mh{position:sticky;top:0;z-index:2;background:var(--bg);padding:16px 16px 8px;font-size:15px;font-weight:700;border-bottom:1px solid var(--line);display:flex;justify-content:space-between}
-.mh span{color:var(--muted);font-weight:400}
-.day{display:flex;gap:14px;align-items:flex-start;padding:11px 16px;border-bottom:1px solid var(--line);cursor:pointer;min-height:56px}
-.day:active{background:var(--surface)}
-.dn{width:42px;flex:none;text-align:center}
-.dn b{display:block;font-size:20px;line-height:1.1;font-weight:600}
-.dn span{font-size:11.5px;color:var(--muted)}
-.day.we .dn span{color:var(--accent)}
-.day.today{background:var(--today)}
-.day.today .dn b{color:var(--accent)}
-.txt{flex:1;min-width:0;padding-top:2px;font-size:14px;line-height:1.35;color:var(--ink);white-space:pre-wrap;overflow:hidden;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical}
-.txt.empty{color:var(--past)}
-.chip{flex:none;font-size:12px;padding:3px 9px;border-radius:12px;background:var(--accent);color:var(--accent-ink);margin-top:2px}
-.chip.done{background:var(--line);color:var(--muted)}
-footer{padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));font-size:12px;color:var(--muted);text-align:center;border-top:1px solid var(--line)}
-
-/* sheet */
-#shade{position:absolute;inset:0;background:rgba(0,0,0,.45);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
+header{padding:12px 16px 4px}
+body:not(.mobile) header{padding-top:40px}
+.ht{display:flex;align-items:center;gap:8px}
+.ttl{flex:1;font-size:12px;color:var(--muted);letter-spacing:.3px}
+.hb{border:1px solid var(--line);background:var(--surface);color:var(--ink);height:30px;padding:0 12px;border-radius:15px;font:inherit;font-size:12.5px;cursor:pointer}
+.hb.on{background:var(--ok);color:var(--ok-ink);border-color:var(--ok)}
+h1{font-size:34px;font-weight:700;letter-spacing:-.8px;line-height:1.15;margin-top:2px}
+#wd{display:grid;grid-template-columns:repeat(7,1fr);text-align:center;font-size:12px;font-weight:600;color:var(--muted);padding:6px 0;border-bottom:1px solid var(--line)}
+#list{flex:1;overflow-y:auto;overscroll-behavior:contain;position:relative}
+.mh{padding:22px 14px 6px;font-size:17px;font-weight:700;color:var(--ink)}
+.mh.cur{color:var(--accent)}
+.wk{display:grid;grid-template-columns:repeat(7,1fr);grid-template-rows:40px;border-top:1px solid var(--line);padding-bottom:3px}
+.dc{min-height:74px;text-align:center;padding-top:4px;cursor:pointer}
+.dc span{display:inline-grid;place-items:center;width:34px;height:34px;border-radius:50%;font-size:19px}
+.dc.we span{color:var(--muted)}
+.dc.today span{background:var(--accent);color:#fff;font-weight:600}
+.ev{margin:1px 2px;padding:2px 6px;border-radius:6px;font-size:12px;line-height:1.25;font-weight:600;overflow-wrap:anywhere;white-space:pre-wrap;cursor:pointer;position:relative;z-index:1}
+.ev.l{border-top-left-radius:0;border-bottom-left-radius:0;margin-left:0}
+.ev.r{border-top-right-radius:0;border-bottom-right-radius:0;margin-right:0}
+#pd{display:flex;gap:8px;margin:6px 0 4px}#pd button{flex:1;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}#pd button.on[data-p="paid"]{background:#30d158;color:#06130f;border-color:#30d158;font-weight:600}#pd button.on[data-p="unpaid"]{background:#ff453a;color:#fff;border-color:#ff453a;font-weight:600}.ev small{display:block;font-weight:500;opacity:.9;font-size:11px}
+#gate,#pp{position:absolute;inset:0;z-index:14;background:var(--bg);display:none;align-items:center;justify-content:center;padding:24px}
+#gate.on,#pp.on{display:flex}
+#gc,#ppc{width:100%;max-width:340px;max-height:100%;overflow-y:auto;text-align:center}
+#gc h3,#ppc h3{font-size:22px;margin-bottom:8px}
+#gc p{font-size:14.5px;line-height:1.45;color:var(--muted);margin-bottom:16px}
+#gc .in{width:100%;margin-bottom:10px;text-align:center}
+#gc button,#ppx{width:100%;height:46px;border-radius:14px;border:0;background:var(--ok);color:var(--ok-ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px}
+.pr{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);text-align:left}
+.pr b{flex:1;font-size:14px;min-width:0;overflow-wrap:anywhere}
+.pr select{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px;font:inherit;font-size:13px}
+.pr button{border:0;background:none;color:#ff6b5e;font-size:18px;cursor:pointer;padding:4px 8px}
+#fab{position:absolute;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:26px;border:0;background:var(--accent);color:#fff;font-size:30px;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:3}
+#shade{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 #shade.on{opacity:1;pointer-events:auto}
-#sheet{position:absolute;left:0;right:0;bottom:0;z-index:6;background:var(--surface);border-radius:22px 22px 0 0;padding:18px 16px calc(16px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
+#sheet{position:absolute;left:0;right:0;bottom:0;z-index:6;max-height:92%;overflow-y:auto;background:var(--surface);border-radius:22px 22px 0 0;padding:16px 16px calc(16px + env(safe-area-inset-bottom,0px));transform:translateY(105%);transition:transform .28s cubic-bezier(.2,.8,.2,1)}
 #sheet.on{transform:none}
 #sheet h2{font-size:17px;margin-bottom:10px}
-#note{width:100%;height:150px;resize:none;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);padding:12px;font:inherit;font-size:15px;line-height:1.4}
-#note:focus,#tm:focus{outline:2px solid var(--accent);outline-offset:1px}
-.row{display:flex;align-items:center;gap:10px;margin:12px 0}
+#note{width:100%;height:110px;resize:none;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--ink);padding:12px;font:inherit;font-size:15px;line-height:1.4}
+#note:focus,.in:focus{outline:2px solid var(--ok);outline-offset:1px}
+.row{display:flex;align-items:center;gap:10px;margin:11px 0}
 .row label{flex:1;font-size:14px}
-#tm{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 10px;font:inherit;font-size:15px}
-#al{width:22px;height:22px;accent-color:var(--accent)}
-.btns{display:flex;gap:8px}
+.in{border:1px solid var(--line);background:var(--bg);color:var(--ink);border-radius:10px;padding:8px 10px;font:inherit;font-size:15px;min-width:0}
+#sw{display:flex;gap:10px;flex-wrap:wrap;margin:6px 0 4px}
+#sw button{width:34px;height:34px;border-radius:50%;border:3px solid transparent;cursor:pointer;box-shadow:inset 0 0 0 1px rgba(128,128,128,.4)}
+#sw button.on{border-color:var(--ink)}
+#al{width:22px;height:22px;accent-color:var(--ok)}
+.btns{display:flex;gap:8px;margin-top:14px}
 .btns button{flex:1;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:15px;cursor:pointer}
-.btns .go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600;flex:2}
-.btns .del{color:var(--warn)}
-
-/* alarm */
+.btns .go{background:var(--ok);color:var(--ok-ink);border-color:var(--ok);font-weight:600;flex:2}
+.btns .del{color:#ff6b5e}
 #ring{position:absolute;inset:0;z-index:9;background:rgba(10,14,13,.92);display:none;flex-direction:column;align-items:center;justify-content:center;gap:14px;padding:30px;text-align:center;color:#fff}
 #ring.on{display:flex}
 #ring b{font-size:44px;font-weight:300}
@@ -103,15 +92,6 @@ footer{padding:10px 16px calc(10px + env(safe-area-inset-bottom,0px));font-size:
 #ring button{height:50px;padding:0 36px;border-radius:25px;border:0;background:#fff;color:#111;font:inherit;font-size:16px;font-weight:600;cursor:pointer;margin-top:12px}
 #toast{position:absolute;left:16px;right:16px;bottom:90px;z-index:8;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:12px;font-size:13.5px;line-height:1.4;opacity:0;pointer-events:none;transition:opacity .2s}
 #toast.on{opacity:1}
-#homebar{position:absolute;left:50%;bottom:7px;width:120px;height:5px;margin-left:-60px;border-radius:3px;background:var(--ink);opacity:.5;z-index:10;cursor:pointer}
-#home~#homebar{background:#fff}
-#a2h{position:absolute;left:12px;right:12px;top:calc(12px + env(safe-area-inset-top,0px));z-index:12;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:16px;padding:12px 14px;display:none;align-items:center;gap:10px;box-shadow:0 8px 30px rgba(0,0,0,.25)}
-body:not(.mobile) #a2h{top:44px}
-#a2h.on{display:flex}
-#a2h p{flex:1;font-size:13.5px;line-height:1.35}
-#a2h p b{display:block;font-size:14.5px}
-#a2h button{height:34px;padding:0 14px;border-radius:17px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:13px;cursor:pointer}
-#a2h .go{background:var(--accent);color:var(--accent-ink);border-color:var(--accent);font-weight:600}
 #pop{position:absolute;inset:0;z-index:13;background:rgba(0,0,0,.55);display:none;align-items:center;justify-content:center;padding:24px}
 #pop.on{display:flex}
 #popc{width:100%;max-width:320px;background:var(--surface);color:var(--ink);border-radius:24px;padding:26px 22px 18px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.4)}
@@ -120,9 +100,10 @@ body:not(.mobile) #a2h{top:44px}
 #popc p{font-size:14.5px;line-height:1.45;color:var(--muted);margin-bottom:18px}
 #popc p b{color:var(--ink)}
 #popc button{width:100%;height:46px;border-radius:14px;border:0;font:inherit;font-size:15px;cursor:pointer}
-#popy{background:var(--accent);color:var(--accent-ink);font-weight:600;margin-bottom:8px}
+#popy{background:var(--ok);color:var(--ok-ink);font-weight:600;margin-bottom:8px}
 #popn{background:none;color:var(--muted)}
-@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+#homebar{position:absolute;left:50%;bottom:7px;width:120px;height:5px;margin-left:-60px;border-radius:3px;background:#fff;opacity:.5;z-index:10;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
@@ -131,7 +112,7 @@ body:not(.mobile) #a2h{top:44px}
 <div id="home">
   <div id="clock"><b id="ck">9:41</b><span id="cd"></span></div>
   <div id="grid">
-    <button class="ico app" id="openApp"><i><small id="icm">MON</small><em id="icd">1</em></i>Jemaica Schedule<span class="badge" id="badge"></span></button>
+    <button class="ico app" id="openApp"><i><small id="icm">MON</small><em id="icd">1</em></i>585ABG Billeting<span class="badge" id="badge"></span></button>
     <button class="ico" disabled style="opacity:.55"><i>✉</i>Mail</button>
     <button class="ico" disabled style="opacity:.55"><i>☺</i>Photos</button>
     <button class="ico" disabled style="opacity:.55"><i>♪</i>Music</button>
@@ -146,94 +127,145 @@ body:not(.mobile) #a2h{top:44px}
 
 <div id="app">
   <header>
-    <h1>Jemaica Schedule<small id="sub"></small></h1>
-    <button class="hb" id="bell">Alerts off</button>
-    <button class="hb" id="today">Today</button>
+    <div class="ht"><span class="ttl">585ABG Billeting</span><button class="hb" id="ppl" style="display:none">People</button><button class="hb" id="bell">Alerts off</button><button class="hb" id="today">Today</button></div>
+    <h1 id="mon"></h1>
   </header>
+  <div id="wd"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
   <div id="list"></div>
+  <button id="fab" aria-label="New entry">+</button>
 </div>
 
 <div id="shade"></div>
 <div id="sheet">
-  <h2 id="sh"></h2>
-  <textarea id="note" placeholder="Type your note for this day"></textarea>
-  <div class="row"><label for="al">Ring an alarm with this note</label><input type="checkbox" id="al"><input type="time" id="tm" value="09:00"></div>
-  <div class="btns"><button class="del" id="del">Delete</button><button id="cls">Close</button><button class="go" id="sv">Save note</button></div>
+  <h2 id="sh">New entry</h2>
+  <textarea id="note" placeholder="Type your text here"></textarea>
+  <div class="row"><label for="py">Payee</label><input class="in" type="text" id="py" placeholder="Who is the payee?" style="flex:2"></div>
+  <div class="row" style="margin-bottom:0"><label>Payment</label></div>
+  <div id="pd"><button data-p="unpaid">Unpaid</button><button data-p="paid">Paid</button></div>
+  <div class="row"><label for="sd">From</label><input class="in" type="date" id="sd"></div>
+  <div class="row"><label for="ed">To</label><input class="in" type="date" id="ed"></div>
+  <div class="row" style="margin-bottom:0"><label>Color</label></div>
+  <div id="sw"></div>
+  <div class="row"><label for="al">Alarm on the first day</label><input type="checkbox" id="al"><input class="in" type="time" id="tm" value="09:00"></div>
+  <div class="btns"><button class="del" id="del">Delete</button><button id="cls">Close</button><button class="go" id="sv">Save</button></div>
 </div>
 
 <div id="ring"><b id="rt"></b><p id="rx"></p><button id="rd">Dismiss</button></div>
-<div id="pop"><div id="popc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1f6f5c"/><rect x="22" y="26" width="56" height="52" rx="8" fill="#f3f1ec"/><rect x="22" y="26" width="56" height="14" rx="8" fill="#c2410c"/><rect x="32" y="50" width="36" height="5" rx="2" fill="#1c2321"/><rect x="32" y="62" width="24" height="5" rx="2" fill="#1c2321"/></svg><h3 id="popt">Install Jemaica Schedule</h3><p id="popd">Download it to your phone and open it in one tap, like any other app.</p><button id="popy">Install</button><button id="popn">Not now</button></div></div>
+<div id="gate"><div id="gc"><h3 id="gt"></h3><p id="gd"></p><input class="in" id="gn" placeholder="Your name" maxlength="40"><button id="gb">Request access</button></div></div>
+<div id="pp"><div id="ppc"><h3>People</h3><div id="pl"></div><button id="ppx">Close</button></div></div>
 <div id="toast"></div>
+<div id="pop"><div id="popc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1f6f5c"/><rect x="22" y="26" width="56" height="52" rx="8" fill="#f3f1ec"/><rect x="22" y="26" width="56" height="14" rx="8" fill="#c2410c"/><rect x="32" y="50" width="36" height="5" rx="2" fill="#1c2321"/><rect x="32" y="62" width="24" height="5" rx="2" fill="#1c2321"/></svg><h3 id="popt">Install 585ABG Billeting</h3><p id="popd">Download it to your phone and open it in one tap, like any other app.</p><button id="popy">Install</button><button id="popn">Not now</button></div></div>
 <div id="homebar" title="Home"></div>
 </div></div></div>
 
 <script>
 (function(){
 var $=function(i){return document.getElementById(i)};
-var KEY="zyrell.v1", store={}, first=null;
+/* Paste your Firebase details between the quotes to turn on shared access. Leave empty for a single-phone copy. */
+var FIREBASE_CONFIG={apiKey:"",authDomain:"",projectId:"",appId:""};
+var KEY="bill.v2",D={ev:[],f:null};
 var MON=["January","February","March","April","May","June","July","August","September","October","November","December"];
-var WD=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
-function load(){try{var r=JSON.parse(localStorage.getItem(KEY)||"{}");store=r.n||{};first=r.f||null}catch(e){}}
-function save(){try{localStorage.setItem(KEY,JSON.stringify({n:store,f:first}))}catch(e){}}
+var COL=["#ff453a","#ff9f0a","#ffd60a","#30d158","#64d2ff","#0a84ff","#bf5af2","#ff375f","#ffffff"];
 function pad(n){return n<10?"0"+n:""+n}
 function k(d){return d.getFullYear()+"-"+pad(d.getMonth()+1)+"-"+pad(d.getDate())}
+function pk(s){var p=s.split("-");return new Date(+p[0],+p[1]-1,+p[2])}
 function fmt12(t){var p=t.split(":"),h=+p[0];return(h%12||12)+":"+p[1]+(h<12?" AM":" PM")}
 function esc(s){return s.replace(/[&<>]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;"}[c]})}
-
+function ink(c){var r=parseInt(c.substr(1,2),16),g=parseInt(c.substr(3,2),16),b=parseInt(c.substr(5,2),16);return(r*299+g*587+b*114)/1000>150?"#111":"#fff"}
+function load(){try{var r=JSON.parse(localStorage.getItem(KEY));if(r&&r.ev){D=r}else{var o=JSON.parse(localStorage.getItem("zyrell.v1"));if(o){D.f=o.f;Object.keys(o.n||{}).forEach(function(x){var n=o.n[x];D.ev.push({id:x,text:n.text,start:x,end:x,color:COL[5],alarm:n.alarm,time:n.time,fired:n.fired})})}}}catch(e){}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
+var cloud=null,me=null,role=FIREBASE_CONFIG.apiKey?"none":"admin",started=false,peopleOn=false,F={};
+try{F=JSON.parse(localStorage.getItem("bill.fired"))||{}}catch(e){}
+function fk(e){return e.id+"|"+e.start+"|"+e.time}
+function canEdit(){return role==="editor"||role==="admin"}
 load();
-var now0=new Date(); now0.setHours(0,0,0,0);
-if(!first){first=k(now0);save()}
-var fp=first.split("-"), start=new Date(+fp[0],+fp[1]-1,+fp[2]);
-var end=new Date(start.getFullYear()+10,start.getMonth(),start.getDate());
+var now0=new Date();now0.setHours(0,0,0,0);
+if(!D.f){D.f=k(now0);save()}
+var start=pk(D.f),end=new Date(start.getFullYear()+10,start.getMonth(),start.getDate());
 var expired=now0>end;
-
 var mobile=matchMedia("(max-width:700px)").matches;
 document.body.classList.toggle("mobile",mobile);
 
-/* calendar: one long column, month after month */
+/* calendar: months stacked downward, events are bars across their days */
+function week(Y,M,s,dim){
+  var wa=k(new Date(Y,M,Math.max(s,1))),wb=k(new Date(Y,M,Math.min(s+6,dim))),ev=[],lanes=[],h="",c,x;
+  D.ev.forEach(function(e){if(e.end>=wa&&e.start<=wb){
+    var a=e.start<wa?wa:e.start,b=e.end>wb?wb:e.end;
+    ev.push({e:e,sc:pk(a).getDate()-s,ec:pk(b).getDate()-s,l:e.start<wa,r:e.end>wb})}});
+  ev.sort(function(p,q){return p.sc-q.sc||(q.ec-q.sc)-(p.ec-p.sc)});
+  ev.forEach(function(x){var i=0;while(lanes[i]!==undefined&&lanes[i]>=x.sc)i++;lanes[i]=x.ec;x.lane=i});
+  var n=lanes.length+1,tk=k(now0);
+  for(c=0;c<7;c++){var day=s+c;if(day<1||day>dim)continue;var key=k(new Date(Y,M,day));
+    h+='<div class="dc'+(c%6==0?" we":"")+(key===tk?" today":"")+'" data-k="'+key+'" style="grid-column:'+(c+1)+';grid-row:1/span '+n+'"><span>'+day+'</span></div>'}
+  ev.forEach(function(x){var e=x.e;
+    h+='<div class="ev'+(x.l?" l":"")+(x.r?" r":"")+'" data-id="'+e.id+'" style="grid-column:'+(x.sc+1)+'/'+(x.ec+2)+';grid-row:'+(x.lane+2)+';background:'+e.color+';color:'+ink(e.color)+'">'+(e.alarm?"\u23f0 ":"")+esc(e.text)+((e.payee||e.paid===true||e.paid===false)?'<small>'+(e.payee?esc(e.payee)+" \u00b7 ":"")+(e.paid?"Paid":"Unpaid")+'</small>':"")+'</div>'});
+  return '<div class="wk">'+h+'</div>';
+}
 function build(){
-  var h="",d=new Date(start),cur=-1,tk=k(now0);
-  if(expired){$("list").innerHTML='<div class="day"><div class="txt">This copy of Jemaica Schedule ran for ten years and has now ended.</div></div>';return}
-  while(d<=end){
-    var m=d.getFullYear()*12+d.getMonth();
-    if(m!==cur){cur=m;h+='<div class="mh" data-m="'+m+'">'+MON[d.getMonth()]+'<span>'+d.getFullYear()+'</span></div>'}
-    var key=k(d),n=store[key],wd=d.getDay();
-    h+='<div class="day'+(wd%6==0?" we":"")+(key===tk?" today":"")+'" data-k="'+key+'" id="d'+key+'"><div class="dn"><b>'+d.getDate()+'</b><span>'+WD[wd]+'</span></div>'+
-       '<div class="txt'+(n&&n.text?"":" empty")+'">'+(n&&n.text?esc(n.text):"Tap to write")+'</div>'+chip(n)+'</div>';
-    d.setDate(d.getDate()+1);
+  if(expired){$("list").innerHTML='<div class="mh">This copy of 585ABG Billeting ran for ten years and has now ended.</div>';return}
+  var h="",mi,endM=end.getFullYear()*12+end.getMonth();
+  for(mi=start.getFullYear()*12+start.getMonth();mi<=endM;mi++){
+    var Y=Math.floor(mi/12),M=mi%12,dim=new Date(Y,M+1,0).getDate(),off=new Date(Y,M,1).getDay(),w;
+    h+='<div class="mb" data-m="'+mi+'"><div class="mh'+(Y===now0.getFullYear()&&M===now0.getMonth()?" cur":"")+'">'+MON[M].slice(0,3)+(M===0||mi===start.getFullYear()*12+start.getMonth()?" "+Y:"")+'</div>';
+    for(w=0;w*7-off<dim;w++)h+=week(Y,M,w*7-off+1,dim);
+    h+='</div>';
   }
   $("list").innerHTML=h;
 }
-function chip(n){return n&&n.alarm&&n.time?'<span class="chip'+(n.fired?" done":"")+'">⏰ '+fmt12(n.time)+'</span>':""}
-function refreshDay(key){
-  var el=$("d"+key);if(!el)return;var n=store[key];
-  el.querySelector(".txt").className="txt"+(n&&n.text?"":" empty");
-  el.querySelector(".txt").innerHTML=n&&n.text?esc(n.text):"Tap to write";
-  var c=el.querySelector(".chip");if(c)c.remove();
-  el.insertAdjacentHTML("beforeend",chip(n));
+function rebuild(){var t=$("list").scrollTop;build();$("list").scrollTop=t}
+var blocks=null;
+function label(){
+  blocks=blocks||$("list").querySelectorAll(".mb");
+  var t=$("list").scrollTop+110,cur=null,i;
+  for(i=0;i<blocks.length;i++){if(blocks[i].offsetTop<=t)cur=blocks[i];else break}
+  if(cur){var m=+cur.getAttribute("data-m");$("mon").textContent=MON[m%12]+" "+Math.floor(m/12)}
+}
+var raf=0;$("list").addEventListener("scroll",function(){if(!raf)raf=requestAnimationFrame(function(){raf=0;label()})});
+function goToday(smooth){
+  var el=$("list").querySelector(".dc.today");if(!el)return;
+  var top=el.getBoundingClientRect().top-$("list").getBoundingClientRect().top+$("list").scrollTop-90;
+  $("list").scrollTo({top:top,behavior:smooth?"smooth":"auto"});
 }
 
 /* editor */
-var active=null;
-$("list").addEventListener("click",function(e){
-  var r=e.target.closest(".day");if(!r||expired)return;
-  active=r.getAttribute("data-k");
-  var p=active.split("-"),dt=new Date(+p[0],+p[1]-1,+p[2]),n=store[active]||{};
-  $("sh").textContent=WD[dt.getDay()]+", "+MON[dt.getMonth()]+" "+dt.getDate()+", "+dt.getFullYear();
-  $("note").value=n.text||"";$("al").checked=!!n.alarm;$("tm").value=n.time||"09:00";
+var cur={id:null,color:COL[5],key:null,paid:"unpaid"};
+$("sw").innerHTML=COL.map(function(c){return '<button data-c="'+c+'" style="background:'+c+'" aria-label="Color"></button>'}).join("");
+function pick(c){cur.color=c;[].forEach.call($("sw").children,function(b){b.classList.toggle("on",b.getAttribute("data-c")===c)})}
+$("sw").addEventListener("click",function(e){var b=e.target.closest("button");if(b)pick(b.getAttribute("data-c"))});
+function setPaid(v){cur.paid=v;[].forEach.call($("pd").children,function(b){b.classList.toggle("on",b.getAttribute("data-p")===v)})}
+$("pd").addEventListener("click",function(e){var b=e.target.closest("button");if(b)setPaid(b.getAttribute("data-p"))});
+function idx(id){for(var i=0;i<D.ev.length;i++)if(String(D.ev[i].id)===String(id))return i;return -1}
+function openEd(id,key){
+  var e=id!=null?D.ev[idx(id)]:null;if(!e&&!canEdit())return;
+  cur.id=e?e.id:null;cur.key=key;
+  $("sh").textContent=e?"Edit entry":"New entry";
+  $("note").value=e?e.text:"";
+  $("sd").value=e?e.start:key;$("ed").value=e?e.end:key;
+  $("al").checked=!!(e&&e.alarm);$("tm").value=e&&e.time?e.time:"09:00";
+  $("del").style.display=e?"":"none";
+  pick(e?e.color:COL[5]);$("py").value=e&&e.payee?e.payee:"";setPaid(e&&e.paid?"paid":"unpaid");
+  var ro=!canEdit();["note","py","sd","ed","tm","al"].forEach(function(i){$(i).disabled=ro});[].forEach.call(document.querySelectorAll("#sw button,#pd button"),function(b){b.disabled=ro});$("sv").style.display=ro?"none":"";if(ro)$("del").style.display="none";
   $("sheet").classList.add("on");$("shade").classList.add("on");
-  setTimeout(function(){$("note").focus()},300);
-});
+  if(!e)setTimeout(function(){$("note").focus()},300);
+}
 function closeSheet(){$("sheet").classList.remove("on");$("shade").classList.remove("on");$("note").blur()}
+$("list").addEventListener("click",function(e){
+  if(expired)return;
+  var v=e.target.closest(".ev");if(v){openEd(v.getAttribute("data-id"));return}
+  var d=e.target.closest(".dc");if(d)openEd(null,d.getAttribute("data-k"));
+});
+$("fab").onclick=function(){openEd(null,k(new Date()))};
 $("shade").onclick=closeSheet;$("cls").onclick=closeSheet;
 $("sv").onclick=function(){
-  var t=$("note").value.trim(),a=$("al").checked&&t.length>0;
-  if(!t){delete store[active]}else{store[active]={text:t,alarm:a,time:$("tm").value,fired:false}}
-  save();refreshDay(active);closeSheet();badge();
-  if(a){ask(function(ok){toast(ok?"Saved. Alarm set for "+fmt12($("tm").value)+".":"Saved. Turn on alerts to get notified while the app is open.")})}
-  else toast("Saved.");
+  var t=$("note").value.trim();if(!t){toast("Type something first.");return}
+  var s=$("sd").value||cur.key||k(now0),e=$("ed").value||s;if(e<s){var x=s;s=e;e=x}
+  var o={id:cur.id!=null?cur.id:String(Date.now()),text:t,start:s,end:e,color:cur.color,alarm:$("al").checked,time:$("tm").value,fired:false,payee:$("py").value.trim(),paid:cur.paid==="paid"};
+  if(!canEdit())return;
+  if(cloud){cloud.db.collection("events").doc(String(o.id)).set(o).catch(function(){toast("You are not allowed to edit.")});closeSheet();badge()}
+  else{var i=idx(o.id);if(i>=0)D.ev[i]=o;else D.ev.push(o);save();rebuild();closeSheet();badge()}
+  if(o.alarm)ask(function(ok){toast(ok?"Saved. Alarm set for "+fmt12(o.time)+".":"Saved. Turn on alerts to get notified while the app is open.")});else toast("Saved.");
 };
-$("del").onclick=function(){delete store[active];save();refreshDay(active);closeSheet();badge()};
+$("del").onclick=function(){if(!canEdit())return;if(cloud){cloud.db.collection("events").doc(String(cur.id)).delete().catch(function(){toast("You are not allowed to delete.")});closeSheet()}else{var i=idx(cur.id);if(i>=0)D.ev.splice(i,1);save();rebuild();closeSheet();badge()}};
 
 /* alerts */
 function permState(){return("Notification" in window)?Notification.permission:"unsupported"}
@@ -244,12 +276,10 @@ function ask(cb){
   if(Notification.permission==="denied"){toast("Alerts are blocked in your browser settings.");cb&&cb(false);return}
   Notification.requestPermission().then(function(r){bellUI();cb&&cb(r==="granted")})
 }
-$("bell").onclick=function(){ask(function(ok){if(ok){toast("Alerts are on.");notify("Jemaica Schedule","Alerts are working.")}})};
+$("bell").onclick=function(){ask(function(ok){if(ok){toast("Alerts are on.");notify("585ABG Billeting","Alerts are working.")}})};
 function notify(t,b){
   if(permState()!=="granted")return;
-  try{new Notification(t,{body:b})}catch(e){
-    try{navigator.serviceWorker.getRegistration().then(function(r){r&&r.showNotification(t,{body:b})})}catch(x){}
-  }
+  try{new Notification(t,{body:b})}catch(e){try{navigator.serviceWorker.getRegistration().then(function(r){r&&r.showNotification(t,{body:b})})}catch(x){}}
 }
 var ac=null,beepT=null;
 function beep(){
@@ -260,67 +290,95 @@ function beep(){
     o.start();o.stop(ac.currentTime+.45)}catch(e){}
   try{navigator.vibrate&&navigator.vibrate([200,100,200])}catch(e){}
 }
-function ring(key,n){
-  $("rt").textContent=fmt12(n.time);$("rx").textContent=n.text;$("ring").classList.add("on");
-  notify("Jemaica Schedule · "+fmt12(n.time),n.text);
+function ring(e){
+  $("rt").textContent=fmt12(e.time);$("rx").textContent=e.text;$("ring").classList.add("on");
+  notify("585ABG Billeting \u00b7 "+fmt12(e.time),e.text);
   beep();clearInterval(beepT);beepT=setInterval(beep,1500);
 }
 $("rd").onclick=function(){$("ring").classList.remove("on");clearInterval(beepT)};
 function tick(){
-  var d=new Date(),key=k(d),n=store[key],hm=pad(d.getHours())+":"+pad(d.getMinutes());
-  if(n&&n.alarm&&!n.fired&&n.time&&hm>=n.time){n.fired=true;save();refreshDay(key);badge();ring(key,n)}
+  var d=new Date(),key=k(d),hm=pad(d.getHours())+":"+pad(d.getMinutes()),hit=false;
+  D.ev.forEach(function(e){if(e.alarm&&!F[fk(e)]&&e.time&&e.start===key&&hm>=e.time){F[fk(e)]=1;hit=true;ring(e)}});
+  if(hit){try{localStorage.setItem("bill.fired",JSON.stringify(F))}catch(x){}badge()}
 }
 setInterval(tick,5000);
-
-/* badge on the home icon */
 function badge(){
-  var n=store[k(new Date())],c=n&&n.alarm&&!n.fired?1:0;
+  var key=k(new Date()),c=0;D.ev.forEach(function(e){if(e.alarm&&!F[fk(e)]&&e.start===key)c++});
   $("badge").textContent=c;$("badge").style.display=c?"grid":"none";
 }
 
 /* home screen */
 function clock(){
-  var d=new Date();$("ck").textContent=(d.getHours()%12||12)+":"+pad(d.getMinutes());
-  $("cd").textContent=WD[d.getDay()]+", "+MON[d.getMonth()]+" "+d.getDate();
-  $("icm").textContent=WD[d.getDay()].toUpperCase();$("icd").textContent=d.getDate();
+  var d=new Date(),W=["Sun","Mon","Tue","Wed","Thu","Fri","Sat"];
+  $("ck").textContent=(d.getHours()%12||12)+":"+pad(d.getMinutes());
+  $("cd").textContent=W[d.getDay()]+", "+MON[d.getMonth()]+" "+d.getDate();
+  $("icm").textContent=W[d.getDay()].toUpperCase();$("icd").textContent=d.getDate();
 }
 clock();setInterval(clock,10000);
-function openApp(){$("app").classList.add("open");$("home").style.visibility="visible"}
+function openApp(){$("app").classList.add("open");setTimeout(function(){goToday(false);label()},40)}
 function goHome(){closeSheet();$("app").classList.remove("open")}
 $("openApp").onclick=openApp;$("dockApp").onclick=openApp;$("homebar").onclick=goHome;
-$("today").onclick=function(){var el=$("d"+k(new Date()));if(el)$("list").scrollTop=el.offsetTop-52};
+$("today").onclick=function(){goToday(true)};
 
-/* install as phone shortcut */
+/* install pop-up */
 var dp=null;
 window.addEventListener("beforeinstallprompt",function(e){e.preventDefault();dp=e});
+var standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;
 function hidePop(){$("pop").classList.remove("on")}
 function doInstall(){
   if(dp){dp.prompt();if(dp.userChoice)dp.userChoice.then(hidePop);dp=null;return}
   var ios=/iphone|ipad|ipod/i.test(navigator.userAgent);
   $("popt").textContent="Almost done";
-  $("popd").innerHTML=ios?"Tap the <b>Share</b> button at the bottom of Safari, then choose <b>Add to Home Screen</b>.":"Tap the <b>⋮</b> menu in your browser, then choose <b>Install app</b> or <b>Add to Home screen</b>.";
+  $("popd").innerHTML=ios?"Tap the <b>Share</b> button at the bottom of Safari, then choose <b>Add to Home Screen</b>.":"Tap the <b>\u22ee</b> menu in your browser, then choose <b>Install app</b> or <b>Add to Home screen</b>.";
   $("popy").style.display="none";$("popn").textContent="Got it";
 }
+var inapp=/FBAN|FBAV|FB_IAB|Messenger|Instagram/i.test(navigator.userAgent);
+if(inapp){$("popt").textContent="Open in your browser";$("popd").innerHTML="Tap the <b>\u22ef</b> or <b>\u22ee</b> at the top right, then choose <b>Open in browser</b>, <b>Open in Chrome</b> or <b>Open in Safari</b>. Then you can install it.";$("popy").style.display="none";$("popn").textContent="Got it"}
+$("popn").onclick=hidePop;$("popy").onclick=doInstall;
+if(!standalone&&!expired){setTimeout(function(){$("pop").classList.add("on")},600)}
 try{
   var ic='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1f6f5c"/><rect x="22" y="26" width="56" height="52" rx="8" fill="#f3f1ec"/><rect x="22" y="26" width="56" height="14" rx="8" fill="#c2410c"/><rect x="32" y="50" width="36" height="5" rx="2" fill="#1c2321"/><rect x="32" y="62" width="24" height="5" rx="2" fill="#1c2321"/></svg>';
   var uri="data:image/svg+xml,"+encodeURIComponent(ic);
-  var mf={name:"Jemaica Schedule",short_name:"Jemaica Schedule",display:"standalone",background_color:"#f3f1ec",theme_color:"#1d3b34",icons:[{src:uri,sizes:"any",type:"image/svg+xml",purpose:"any"}]};
+  var mf={name:"585ABG Billeting",short_name:"585ABG Billeting",display:"standalone",background_color:"#000000",theme_color:"#000000",icons:[{src:uri,sizes:"any",type:"image/svg+xml",purpose:"any"}]};
   var l=document.createElement("link");l.rel="manifest";l.href=URL.createObjectURL(new Blob([JSON.stringify(mf)],{type:"application/manifest+json"}));document.head.appendChild(l);
   var a=document.createElement("link");a.rel="apple-touch-icon";a.href=uri;document.head.appendChild(a);
   var f=document.createElement("link");f.rel="icon";f.href=uri;document.head.appendChild(f);
 }catch(e){}
-
-var standalone=(window.matchMedia&&matchMedia("(display-mode: standalone)").matches)||window.navigator.standalone===true;
-var inapp=/FBAN|FBAV|FB_IAB|Messenger|Instagram/i.test(navigator.userAgent);
-if(inapp){$("popt").textContent="Open in your browser";$("popd").innerHTML="Tap the <b>⋯</b> or <b>⋮</b> at the top right, then choose <b>Open in browser</b>, <b>Open in Chrome</b> or <b>Open in Safari</b>. Then you can install it.";$("popy").style.display="none";$("popn").textContent="Got it"}
-$("popn").onclick=hidePop;$("popy").onclick=doInstall;
-if(!standalone&&!expired){setTimeout(function(){$("pop").classList.add("on")},600)}
 var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");clearTimeout(tt);tt=setTimeout(function(){t.classList.remove("on")},3200)}
 
-build();bellUI();badge();tick();
-$("sub").textContent=MON[now0.getMonth()]+" "+now0.getFullYear();
-if(mobile){openApp();$("today").click()}
-$("openApp").addEventListener("click",function(){setTimeout(function(){$("today").click()},50)});
+/* shared access: names, approval, roles */
+function gate(t,d,ask){$("gt").textContent=t;$("gd").textContent=d;$("gn").style.display=$("gb").style.display=ask?"":"none";$("gate").classList.add("on")}
+function applyRole(){$("fab").style.display=canEdit()?"":"none";$("ppl").style.display=role==="admin"?"":"none";if(role==="admin")watchPeople()}
+function startData(){if(started)return;started=true;cloud.db.collection("events").onSnapshot(function(q){D.ev=q.docs.map(function(d){return d.data()});rebuild();badge()},function(){toast("Could not load the calendar.")})}
+function watchMe(){cloud.db.collection("users").doc(me).onSnapshot(function(s){
+  if(!s.exists){role="none";gate("Welcome","Type your name to ask for access.",true);$("gb").disabled=false;return}
+  var u=s.data();role=u.role;
+  if(role==="pending"){gate("Waiting for approval","Hi "+u.name+". The administrator has to approve you before you can open this. This page updates by itself.",false);return}
+  $("gate").classList.remove("on");applyRole();startData();
+},function(){gate("Access error","Close the app and open it again.",false)})}
+function watchPeople(){if(peopleOn)return;peopleOn=true;cloud.db.collection("users").onSnapshot(function(q){
+  var h="",pend=0;
+  q.docs.forEach(function(d){var u=d.data();if(u.role==="pending")pend++;
+    h+='<div class="pr"><b>'+esc(u.name||"")+(d.id===me?" (you)":"")+'</b><select data-u="'+d.id+'">'+["pending","viewer","editor","admin"].map(function(r){return '<option'+(r===u.role?" selected":"")+'>'+r+'</option>'}).join("")+'</select><button data-x="'+d.id+'" aria-label="Remove">\u2715</button></div>'});
+  $("pl").innerHTML=h||"No one yet.";$("ppl").textContent="People"+(pend?" ("+pend+")":"")})}
+$("ppl").onclick=function(){$("pp").classList.add("on")};$("ppx").onclick=function(){$("pp").classList.remove("on")};
+$("pl").addEventListener("change",function(e){var u=e.target.getAttribute("data-u");if(u)cloud.db.collection("users").doc(u).update({role:e.target.value}).catch(function(){toast("Could not change.")})});
+$("pl").addEventListener("click",function(e){var b=e.target.closest("button"),u=b&&b.getAttribute("data-x");if(!u)return;if(u===me){toast("You can't remove yourself.");return}if(confirm("Remove this person?"))cloud.db.collection("users").doc(u).delete()});
+$("gb").onclick=function(){var n=$("gn").value.trim();if(!n)return;$("gb").disabled=true;cloud.db.collection("users").doc(me).set({name:n,role:"pending",at:Date.now()}).catch(function(){$("gb").disabled=false;toast("Could not send. Try again.")})};
+function initCloud(){
+  if(!FIREBASE_CONFIG.apiKey)return;
+  gate("Loading","Connecting\u2026",false);
+  var u=["app","auth","firestore"],i=0;
+  (function nx(){
+    if(i>=u.length){firebase.initializeApp(FIREBASE_CONFIG);cloud={db:firebase.firestore()};
+      firebase.auth().signInAnonymously().then(function(r){me=r.user.uid;watchMe()}).catch(function(){gate("Could not start","Close the app and open it again.",false)});return}
+    var sc=document.createElement("script");sc.src="https://www.gstatic.com/firebasejs/10.12.2/firebase-"+u[i++]+"-compat.js";sc.onload=nx;
+    sc.onerror=function(){gate("No connection","Check your internet and open the app again.",false)};document.head.appendChild(sc)
+  })();
+}
+build();bellUI();badge();tick();initCloud();
+$("mon").textContent=MON[now0.getMonth()]+" "+now0.getFullYear();
+if(mobile)openApp();
 })();
 </script>
 </body>
