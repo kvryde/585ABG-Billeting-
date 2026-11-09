@@ -55,17 +55,19 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px;line-height:1.15;margin-t
 .ev.l{border-top-left-radius:0;border-bottom-left-radius:0;margin-left:0}
 .ev.r{border-top-right-radius:0;border-bottom-right-radius:0;margin-right:0}
 #pd{display:flex;gap:8px;margin:6px 0 4px}#pd button{flex:1;height:38px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--ink);font:inherit;font-size:14px;cursor:pointer}#pd button.on[data-p="paid"]{background:#30d158;color:#06130f;border-color:#30d158;font-weight:600}#pd button.on[data-p="unpaid"]{background:#ff453a;color:#fff;border-color:#ff453a;font-weight:600}.ev small{display:block;font-weight:500;opacity:.9;font-size:11px}
-#gate,#pp{position:absolute;inset:0;z-index:14;background:var(--bg);display:none;align-items:center;justify-content:center;padding:24px}
-#gate.on,#pp.on{display:flex}
-#gc,#ppc{width:100%;max-width:340px;max-height:100%;overflow-y:auto;text-align:center}
-#gc h3,#ppc h3{font-size:22px;margin-bottom:8px}
+#gate,#pp,#up{position:absolute;inset:0;z-index:14;background:var(--bg);display:none;align-items:center;justify-content:center;padding:24px}
+#gate.on,#pp.on,#up.on{display:flex}
+#gc,#ppc,#upc{width:100%;max-width:340px;max-height:100%;overflow-y:auto;text-align:center}
+#gc h3,#ppc h3,#upc h3{font-size:22px;margin-bottom:8px}
 #gc p{font-size:14.5px;line-height:1.45;color:var(--muted);margin-bottom:16px}
 #gc .in{width:100%;margin-bottom:10px;text-align:center}
-#gc button,#ppx{width:100%;height:46px;border-radius:14px;border:0;background:var(--ok);color:var(--ok-ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px}
+#gc button,#ppx,#upx{width:100%;height:46px;border-radius:14px;border:0;background:var(--ok);color:var(--ok-ink);font:inherit;font-size:15px;font-weight:600;cursor:pointer;margin-top:6px}
 .pr{display:flex;gap:8px;align-items:center;padding:9px 0;border-bottom:1px solid var(--line);text-align:left}
 .pr b{flex:1;font-size:14px;min-width:0;overflow-wrap:anywhere}
 .pr select{border:1px solid var(--line);background:var(--surface);color:var(--ink);border-radius:8px;padding:6px;font:inherit;font-size:13px}
 .pr button{border:0;background:none;color:#ff6b5e;font-size:18px;cursor:pointer;padding:4px 8px}
+.ur{padding:9px 0;border-bottom:1px solid var(--line);text-align:left;font-size:13.5px;line-height:1.35;overflow-wrap:anywhere}.ur small{display:block;color:var(--muted);font-size:11.5px;margin-top:2px}.rl{font-size:13px;color:var(--muted);padding:6px}
+#upd{position:relative}#un{position:absolute;top:-6px;right:-4px;min-width:18px;height:18px;border-radius:9px;background:var(--accent);color:#fff;font-size:11px;display:none;place-items:center;padding:0 4px}
 #fab{position:absolute;right:16px;bottom:calc(18px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:26px;border:0;background:var(--accent);color:#fff;font-size:30px;line-height:1;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:3}
 #shade{position:absolute;inset:0;background:rgba(0,0,0,.5);opacity:0;pointer-events:none;transition:opacity .2s;z-index:5}
 #shade.on{opacity:1;pointer-events:auto}
@@ -127,7 +129,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px;line-height:1.15;margin-t
 
 <div id="app">
   <header>
-    <div class="ht"><span class="ttl">585ABG Billeting</span><button class="hb" id="ppl" style="display:none">People</button><button class="hb" id="bell">Alerts off</button><button class="hb" id="today">Today</button></div>
+    <div class="ht"><span class="ttl">585ABG Billeting</span><button class="hb" id="ppl" style="display:none">People</button><button class="hb" id="today">Today</button><button class="hb" id="upd" aria-label="Updates">🔔<span id="un"></span></button></div>
     <h1 id="mon"></h1>
   </header>
   <div id="wd"><span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span></div>
@@ -152,6 +154,7 @@ h1{font-size:34px;font-weight:700;letter-spacing:-.8px;line-height:1.15;margin-t
 
 <div id="ring"><b id="rt"></b><p id="rx"></p><button id="rd">Dismiss</button></div>
 <div id="gate"><div id="gc"><h3 id="gt"></h3><p id="gd"></p><input class="in" id="gn" placeholder="Your name" maxlength="40"><button id="gb">Request access</button></div></div>
+<div id="up"><div id="upc"><h3>Updates</h3><div style="margin-bottom:10px"><button class="hb" id="bell">Alerts off</button></div><div id="ul"><p style="color:var(--muted);font-size:13.5px">Updates from other people show here once shared access is on.</p></div><button id="upx">Close</button></div></div>
 <div id="pp"><div id="ppc"><h3>People</h3><div id="pl"></div><button id="ppx">Close</button></div></div>
 <div id="toast"></div>
 <div id="pop"><div id="popc"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="22" fill="#1f6f5c"/><rect x="22" y="26" width="56" height="52" rx="8" fill="#f3f1ec"/><rect x="22" y="26" width="56" height="14" rx="8" fill="#c2410c"/><rect x="32" y="50" width="36" height="5" rx="2" fill="#1c2321"/><rect x="32" y="62" width="24" height="5" rx="2" fill="#1c2321"/></svg><h3 id="popt">Install 585ABG Billeting</h3><p id="popd">Download it to your phone and open it in one tap, like any other app.</p><button id="popy">Install</button><button id="popn">Not now</button></div></div>
@@ -177,7 +180,9 @@ function save(){try{localStorage.setItem(KEY,JSON.stringify(D))}catch(e){}}
 var cloud=null,me=null,role=FIREBASE_CONFIG.apiKey?"none":"admin",started=false,peopleOn=false,F={};
 try{F=JSON.parse(localStorage.getItem("bill.fired"))||{}}catch(e){}
 function fk(e){return e.id+"|"+e.start+"|"+e.time}
-function canEdit(){return role==="editor"||role==="admin"}
+function canEdit(){return role==="editor"||role==="moderator"||role==="admin"}
+function isMod(){return role==="moderator"||role==="admin"}
+var meName="",actOn=false,unread=0;
 load();
 var now0=new Date();now0.setHours(0,0,0,0);
 if(!D.f){D.f=k(now0);save()}
@@ -261,11 +266,11 @@ $("sv").onclick=function(){
   var s=$("sd").value||cur.key||k(now0),e=$("ed").value||s;if(e<s){var x=s;s=e;e=x}
   var o={id:cur.id!=null?cur.id:String(Date.now()),text:t,start:s,end:e,color:cur.color,alarm:$("al").checked,time:$("tm").value,fired:false,payee:$("py").value.trim(),paid:cur.paid==="paid"};
   if(!canEdit())return;
-  if(cloud){cloud.db.collection("events").doc(String(o.id)).set(o).catch(function(){toast("You are not allowed to edit.")});closeSheet();badge()}
+  if(cloud){var ex=idx(o.id)>=0;cloud.db.collection("events").doc(String(o.id)).set(o).then(function(){logAct(ex?"edited":"added",o.text,o)}).catch(function(){toast("You are not allowed to edit.")});closeSheet();badge()}
   else{var i=idx(o.id);if(i>=0)D.ev[i]=o;else D.ev.push(o);save();rebuild();closeSheet();badge()}
   if(o.alarm)ask(function(ok){toast(ok?"Saved. Alarm set for "+fmt12(o.time)+".":"Saved. Turn on alerts to get notified while the app is open.")});else toast("Saved.");
 };
-$("del").onclick=function(){if(!canEdit())return;if(cloud){cloud.db.collection("events").doc(String(cur.id)).delete().catch(function(){toast("You are not allowed to delete.")});closeSheet()}else{var i=idx(cur.id);if(i>=0)D.ev.splice(i,1);save();rebuild();closeSheet();badge()}};
+$("del").onclick=function(){if(!canEdit())return;if(cloud){var ev0=D.ev[idx(cur.id)];cloud.db.collection("events").doc(String(cur.id)).delete().then(function(){if(ev0)logAct("deleted",ev0.text,ev0)}).catch(function(){toast("You are not allowed to delete.")});closeSheet()}else{var i=idx(cur.id);if(i>=0)D.ev.splice(i,1);save();rebuild();closeSheet();badge()}};
 
 /* alerts */
 function permState(){return("Notification" in window)?Notification.permission:"unsupported"}
@@ -348,22 +353,42 @@ var tt;function toast(m){var t=$("toast");t.textContent=m;t.classList.add("on");
 
 /* shared access: names, approval, roles */
 function gate(t,d,ask){$("gt").textContent=t;$("gd").textContent=d;$("gn").style.display=$("gb").style.display=ask?"":"none";$("gate").classList.add("on")}
-function applyRole(){$("fab").style.display=canEdit()?"":"none";$("ppl").style.display=role==="admin"?"":"none";if(role==="admin")watchPeople()}
-function startData(){if(started)return;started=true;cloud.db.collection("events").onSnapshot(function(q){D.ev=q.docs.map(function(d){return d.data()});rebuild();badge()},function(){toast("Could not load the calendar.")})}
+function applyRole(){$("fab").style.display=canEdit()?"":"none";$("ppl").style.display=isMod()?"":"none";if(isMod())watchPeople()}
+function startData(){if(started)return;started=true;watchActivity();cloud.db.collection("events").onSnapshot(function(q){D.ev=q.docs.map(function(d){return d.data()});rebuild();badge()},function(){toast("Could not load the calendar.")})}
 function watchMe(){cloud.db.collection("users").doc(me).onSnapshot(function(s){
   if(!s.exists){role="none";gate("Welcome","Type your name to ask for access.",true);$("gb").disabled=false;return}
-  var u=s.data();role=u.role;
+  var u=s.data();role=u.role;meName=u.name||"";
   if(role==="pending"){gate("Waiting for approval","Hi "+u.name+". The administrator has to approve you before you can open this. This page updates by itself.",false);return}
   $("gate").classList.remove("on");applyRole();startData();
 },function(){gate("Access error","Close the app and open it again.",false)})}
+var ROLES=[["pending","Pending"],["viewer","Viewer"],["editor","Editor"],["moderator","Moderator"],["admin","Admin"]];
 function watchPeople(){if(peopleOn)return;peopleOn=true;cloud.db.collection("users").onSnapshot(function(q){
   var h="",pend=0;
   q.docs.forEach(function(d){var u=d.data();if(u.role==="pending")pend++;
-    h+='<div class="pr"><b>'+esc(u.name||"")+(d.id===me?" (you)":"")+'</b><select data-u="'+d.id+'">'+["pending","viewer","editor","admin"].map(function(r){return '<option'+(r===u.role?" selected":"")+'>'+r+'</option>'}).join("")+'</select><button data-x="'+d.id+'" aria-label="Remove">\u2715</button></div>'});
+    var lock=d.id===me||(role==="moderator"&&(u.role==="moderator"||u.role==="admin"));
+    var opts=ROLES.filter(function(r){return role==="admin"||r[0]==="pending"||r[0]==="viewer"||r[0]==="editor"}).map(function(r){return '<option value="'+r[0]+'"'+(r[0]===u.role?" selected":"")+'>'+r[1]+'</option>'}).join("");
+    var lab=ROLES.filter(function(r){return r[0]===u.role})[0];
+    h+='<div class="pr"><b>'+esc(u.name||"")+(d.id===me?" (you)":"")+'</b>'+(lock?'<span class="rl">'+(lab?lab[1]:"")+'</span>':'<select data-u="'+d.id+'">'+opts+'</select><button data-x="'+d.id+'" aria-label="Remove">\u2715</button>')+'</div>'});
   $("pl").innerHTML=h||"No one yet.";$("ppl").textContent="People"+(pend?" ("+pend+")":"")})}
 $("ppl").onclick=function(){$("pp").classList.add("on")};$("ppx").onclick=function(){$("pp").classList.remove("on")};
-$("pl").addEventListener("change",function(e){var u=e.target.getAttribute("data-u");if(u)cloud.db.collection("users").doc(u).update({role:e.target.value}).catch(function(){toast("Could not change.")})});
-$("pl").addEventListener("click",function(e){var b=e.target.closest("button"),u=b&&b.getAttribute("data-x");if(!u)return;if(u===me){toast("You can't remove yourself.");return}if(confirm("Remove this person?"))cloud.db.collection("users").doc(u).delete()});
+$("pl").addEventListener("change",function(e){var u=e.target.getAttribute("data-u");if(!u)return;var n=e.target.closest(".pr").querySelector("b").textContent,r=e.target.value;cloud.db.collection("users").doc(u).update({role:r}).then(function(){logAct("role",n+" is now "+r)}).catch(function(){toast("Could not change.")})});
+$("pl").addEventListener("click",function(e){var b=e.target.closest("button"),u=b&&b.getAttribute("data-x");if(!u)return;if(confirm("Remove this person?")){var n=b.closest(".pr").querySelector("b").textContent;cloud.db.collection("users").doc(u).delete().then(function(){logAct("role",n+" was removed")}).catch(function(){toast("Could not remove.")})}});
+/* updates feed */
+function logAct(action,text,e){if(!cloud)return;cloud.db.collection("activity").add({at:Date.now(),uid:me,by:meName,role:role,action:action,text:String(text).slice(0,120),start:e?e.start:"",end:e?e.end:""}).catch(function(){})}
+function ago(t){var m=Math.round((Date.now()-t)/60000);return m<1?"just now":m<60?m+" min ago":m<1440?Math.round(m/60)+" h ago":Math.round(m/1440)+" d ago"}
+function actLine(a){return a.action==="role"?a.text:(a.by||"Someone")+" "+a.action+": "+a.text}
+function badgeU(){$("un").textContent=unread;$("un").style.display=unread?"grid":"none"}
+function markSeen(){try{localStorage.setItem("bill.seen",String(Date.now()))}catch(e){}unread=0;badgeU()}
+$("upd").onclick=function(){$("up").classList.add("on");markSeen()};$("upx").onclick=function(){$("up").classList.remove("on")};
+function watchActivity(){if(actOn)return;actOn=true;var first=true;
+  cloud.db.collection("activity").orderBy("at","desc").limit(50).onSnapshot(function(q){
+    var seen=+localStorage.getItem("bill.seen")||0,h="";unread=0;
+    q.docs.forEach(function(d){var a=d.data();if(a.at>seen&&a.uid!==me)unread++;
+      h+='<div class="ur">'+esc(actLine(a))+'<small>'+esc(a.by||"")+(a.role?" ("+esc(a.role)+")":"")+" \u00b7 "+ago(a.at)+(a.start?" \u00b7 "+a.start+(a.end&&a.end!==a.start?" to "+a.end:""):"")+'</small></div>'});
+    if(!first)q.docChanges().forEach(function(c){if(c.type==="added"&&c.doc.data().uid!==me)notify("585ABG Billeting",actLine(c.doc.data()))});
+    first=false;$("ul").innerHTML=h||'<p style="color:var(--muted);font-size:13.5px">No updates yet.</p>';
+    if($("up").classList.contains("on"))markSeen();else badgeU();
+  },function(){})}
 $("gb").onclick=function(){var n=$("gn").value.trim();if(!n)return;$("gb").disabled=true;cloud.db.collection("users").doc(me).set({name:n,role:"pending",at:Date.now()}).catch(function(){$("gb").disabled=false;toast("Could not send. Try again.")})};
 function initCloud(){
   if(!FIREBASE_CONFIG.apiKey)return;
